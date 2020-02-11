@@ -1,0 +1,38 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: postgis
+    image: kartoza/postgis:11.0-2.5
+    environment:
+        POSTGRES_USER: "daruedar"
+        POSTGRES_PASSWORD: "etc123"
+    volumes:
+        - db_data:/var/lib/postgresql/data
+    ports:
+        - "5432:5432/tcp"
+    networks:
+        - backend
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:4.18
+    environment:
+        PGADMIN_DEFAULT_EMAIL: "daruedar@correo.udistrital.edu.co"
+        PGADMIN_DEFAULT_PASSWORD: "etc1234"
+    ports:
+        - "5435:80"
+    networks:
+        - backend
+    volumes:
+        - pgadmin_data:/var/lib/pgadmin
+    restart: unless-stopped
+
+networks:
+    backend:
+        driver: bridge
+
+volumes:
+    db_data:
+    pgadmin_data:
